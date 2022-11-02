@@ -17,11 +17,13 @@ public final class RomanParser {
             throw new InvalidInputException();
         }
         var r = roman.trim().toUpperCase();
+        var allowedChars = Pattern.compile("^(([IVXLCDM])(?!\\2{3}))+$").matcher(r);
         var forbiddenRepetitionMatcher = Pattern.compile("([VLD])\\1+").matcher(r);
         var forbiddenBiggerNumberAfterV = Pattern.compile("(V)I*(?=[XLDMC])").matcher(r);
-        if (!r.matches("^(([IVXLCDM])(?!\\2{3}))+$") ||
-                forbiddenRepetitionMatcher.find() ||
-                forbiddenBiggerNumberAfterV.find()) {
+        if (!allowedChars.matches()
+                || forbiddenRepetitionMatcher.find()
+                || forbiddenBiggerNumberAfterV.find()
+        ) {
             throw new InvalidInputException();
         }
     }
