@@ -84,17 +84,21 @@ class RomanParserTest {
         assertEquals(9, romanParser.parse("IX").value());
         assertEquals(40, romanParser.parse("XL").value());
         // We do not subtract 5 from any symbol. VX is not correct.
-        assertThrows(InvalidInputException.class, ()-> romanParser.parse("VX"));
-        assertThrows(InvalidInputException.class, ()-> romanParser.parse("CVC"));
+        assertThrows(InvalidInputException.class, () -> romanParser.parse("VX"));
+        assertThrows(InvalidInputException.class, () -> romanParser.parse("CVC"));
+        assertThrows(InvalidInputException.class, () -> romanParser.parse("IC"));
+        assertThrows(InvalidInputException.class, () -> romanParser.parse("XM"));
+        assertThrows(InvalidInputException.class, () -> romanParser.parse("XD"));
     }
 
     @Test
-    void parse_randomNumbers_correctValue(){
+    void parse_randomNumbers_correctValue() {
         assertEquals(42, romanParser.parse("XLII").value());
         assertEquals(1789, romanParser.parse("MDCCLXXXIX").value());
         assertEquals(1914, romanParser.parse("MCMXIV").value());
         assertEquals(1918, romanParser.parse("MCMXVIII").value());
         assertEquals(2000, romanParser.parse("MM").value());
         assertEquals(2022, romanParser.parse("MMXXII").value());
+        assertEquals(3999, romanParser.parse("MMMCMXCIX").value());
     }
 }
