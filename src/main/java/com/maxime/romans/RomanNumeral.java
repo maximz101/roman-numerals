@@ -11,6 +11,12 @@ public final class RomanNumeral {
     }
 
     static RomanNumeral from(List<RomanSymbol> list) {
+        for (int i = list.size() - 2; i >= 0; i--) {
+            var n = list.get(i);
+            if (n.isIllegalRight(list.get(i + 1))) {
+                throw new InvalidInputException();
+            }
+        }
         return new RomanNumeral(list);
     }
 
@@ -20,21 +26,24 @@ public final class RomanNumeral {
 
         while (i < symbols.size()) {
             var current = symbols.get(i);
-            var next = next(i);
-
-            if (next.isPresent() && current.compareTo(next.get()) < 0) {
-                r += next.get().subtract(current);
-                i += 2;
-                continue;
+            var maybeNext = getNext(i);
+            if (maybeNext.isEmpty()) {
+                r += current.value();
+                return r;
             }
-
-            r += current.value();
-            i++;
+            var next = maybeNext.get();
+            if (current.compareTo(next) < 0) {
+                r += next.subtract(current);
+                i += 2;
+            } else {
+                r += current.value();
+                i++;
+            }
         }
         return r;
     }
 
-    private Optional<RomanSymbol> next(int i) {
+    private Optional<RomanSymbol> getNext(int i) {
         return i < symbols.size() - 1 ? Optional.of(symbols.get(i + 1)) : Optional.empty();
     }
 }
