@@ -22,11 +22,13 @@ public final class RomanParser {
         var forbiddenBiggerNumberAfterV = Pattern.compile("V(?=[XLDMC])").matcher(r);
         var forbiddenBiggerThanXAfterI = Pattern.compile("I(?=[LDMC])").matcher(r);
         var forbiddenBiggerThanCAfterX = Pattern.compile("X(?=[DM])").matcher(r);
+        var forbiddenAfterL = Pattern.compile("L(?=[CM])").matcher(r);
         if (!allowedChars.matches()
                 || forbiddenRepetitionMatcher.find()
                 || forbiddenBiggerNumberAfterV.find()
                 || forbiddenBiggerThanXAfterI.find()
                 || forbiddenBiggerThanCAfterX.find()
+                || forbiddenAfterL.find()
         ) {
             throw new InvalidInputException();
         }

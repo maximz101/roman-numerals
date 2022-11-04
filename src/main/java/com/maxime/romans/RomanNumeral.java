@@ -20,10 +20,10 @@ public final class RomanNumeral {
 
         while (i < symbols.size()) {
             var current = symbols.get(i);
-            var next = next(i);
+            var maybeNext = getNext(i);
 
-            if (next.isPresent() && current.compareTo(next.get()) < 0) {
-                r += next.get().subtract(current);
+            if (maybeNext.isPresent() && current.compareTo(maybeNext.get()) < 0) {
+                r += maybeNext.get().subtract(current);
                 i += 2;
                 continue;
             }
@@ -34,7 +34,7 @@ public final class RomanNumeral {
         return r;
     }
 
-    private Optional<RomanSymbol> next(int i) {
+    private Optional<RomanSymbol> getNext(int i) {
         return i < symbols.size() - 1 ? Optional.of(symbols.get(i + 1)) : Optional.empty();
     }
 }

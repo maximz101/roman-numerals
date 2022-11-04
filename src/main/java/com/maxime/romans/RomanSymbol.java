@@ -1,17 +1,28 @@
 package com.maxime.romans;
 
+import java.util.Map;
+
 public sealed interface RomanSymbol extends Comparable<RomanSymbol> permits One, Five, Ten, Fifty, OneHundred, FiveHundred, OneThousand {
+
+    Character I = 'I';
+    Character V = 'V';
+    Character X = 'X';
+    Character L = 'L';
+    Character C = 'C';
+    Character D = 'D';
+    Character M = 'M';
+    Map<Character, RomanSymbol> SYMBOLS = Map.of(
+            I, new One(),
+            V, new Five(),
+            X, new Ten(),
+            L, new Fifty(),
+            C, new OneHundred(),
+            D, new FiveHundred(),
+            M, new OneThousand()
+    );
+
     static RomanSymbol charToSymbol(Character c) {
-        return switch (c) {
-            case 'I' -> new One();
-            case 'V' -> new Five();
-            case 'X' -> new Ten();
-            case 'L' -> new Fifty();
-            case 'C' -> new OneHundred();
-            case 'D' -> new FiveHundred();
-            case 'M' -> new OneThousand();
-            default -> throw new InvalidInputException();
-        };
+        return SYMBOLS.get(c);
     }
 
     int value();
